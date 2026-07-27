@@ -25,7 +25,12 @@ function Auth({isModel = false}) {
         { name, email },
         { withCredentials: true },
       );
-      dispatch(setUserData(result.data))
+      // Store token in localStorage for Authorization header
+      if (result.data.token) {
+        localStorage.setItem("token", result.data.token);
+      }
+      const { token: _token, ...userData } = result.data;
+      dispatch(setUserData(userData))
 
     } catch (error) {
       dispatch(setUserData(null))

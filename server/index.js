@@ -9,12 +9,26 @@ import userRouter from "./routes/user.route.js";
 import interviewRouter from "./routes/interview.route.js";
 import paymentRouter from "./routes/payment.route.js";
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:5174",
+  "https://interviewiq-client-taa5.onrender.com",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: "https://interviewiq-client-taa5.onrender.com",
-    credentials:true
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
+    credentials: true,
   }),
-)
+);
 
 
 app.use(express.json());
